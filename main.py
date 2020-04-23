@@ -1,8 +1,7 @@
 ## Test
 from model import DeepGP
 from kernel import GaussianKernel
-import numpy as np
+from plot import draw_function
 
-test = DeepGP([(2,2), (2,2)], [GaussianKernel(1.), GaussianKernel(1.)])
-
-test.inference(np.array([[1,2], [3,4], [5,6]]))
+test = DeepGP([(1,2), (2,1)], [GaussianKernel(0.1), GaussianKernel(0.1)])
+draw_function(-1, 1, test)
