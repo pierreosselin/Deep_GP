@@ -1,4 +1,5 @@
 ## Kernel constructions
+import numpy as np
 
 class Kernel:
     """
@@ -31,15 +32,22 @@ class GaussianKernel(Kernel):
         self.lengthscale = lengthscale
         pass
 
-    def build_covariance(self):
+    def build_covariance(self, points):
         """
-        Build the cocvariance matrix for inference
+        Build the covariance matrix for inference
         :return : Covariance Matrix
         """
-        pass
+        n = points.shape[0]
+        mat = np.zeros((n,n))
+        for i, el1 in enumerate(points):
+            mat[i,i] = 1.
+            for j, el2 in enumerate(points[(i+1):]):
+                mat[i,j] = self.covariance_functions(el1, el2)
+                mat[j,i] = mat[i,j]
+        return mat
 
-    def covariance_functions(self):
+    def covariance_functions(self, x, y):
         """
         Implementation of the specific covariance function for the kernel
         """
-        pass
+        return np.exp(((x-y)**2) / self.lengthscale)
